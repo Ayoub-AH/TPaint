@@ -16,6 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".FreeDrawingActivity" />
+        <activity android:name=".ModelDrawingActivity"></activity>
     </application>
 
 </manifest>
