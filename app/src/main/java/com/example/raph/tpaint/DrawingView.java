@@ -11,8 +11,10 @@ import android.view.View;
  */
 
 public class DrawingView extends View {
-    public DrawingView(Context context, @Nullable AttributeSet attrs) {
+    public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        setupDrawing();
+
     }
 
     private void setupDrawing(){
