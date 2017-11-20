@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">TPaint</string>
+    <string name="dessin_libre">Dessin libre</string>
+    <string name="dessin_avec_modele">Dessin avec modele</string>
+    <string name="charger_dessin">Charger</string>
+
+
+</resources>
