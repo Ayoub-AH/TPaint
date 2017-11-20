@@ -16,8 +16,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".FreeDrawingActivity" />
-        <activity android:name=".ModelDrawingActivity"></activity>
+        <activity
+            android:name=".FreeDrawingActivity"
+            android:label="Dessin libre"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity
+            android:name=".ModelDrawingActivity"
+            android:label="Dessin avec modele"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" >
+        </activity>
     </application>
 
 </manifest>
