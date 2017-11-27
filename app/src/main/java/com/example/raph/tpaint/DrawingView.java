@@ -122,11 +122,18 @@ public class DrawingView extends View {
         return lastBrushSize;
     }
 
+
     public void setErase(boolean isErase){
         //set erase true or false
         erase=isErase;
         if(erase) drawPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
         else drawPaint.setXfermode(null);
+    }
+
+    public void startNew(){
+        // clears the canvas and updates the display
+        drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
+        invalidate();
     }
 }
 

@@ -16,7 +16,7 @@ import android.widget.Toast;
 public class FreeDrawingActivity extends AppCompatActivity implements OnClickListener {
 
     private DrawingView drawView;
-    private ImageButton currPaint, drawBtn, eraseBtn;
+    private ImageButton currPaint, drawBtn, eraseBtn, newBtn, saveBtn;
     private float smallBrush, mediumBrush, largeBrush;
 
     @Override
@@ -40,12 +40,21 @@ public class FreeDrawingActivity extends AppCompatActivity implements OnClickLis
         // Reference to draw button and sit this class as a ClickListener
         drawBtn = (ImageButton)findViewById(R.id.draw_btn);
         drawBtn.setOnClickListener(this);
+
         // Set brush size to medium
         drawView.setBrushSize(mediumBrush);
 
         // Reference to erase button and sit this class as a ClickListener
         eraseBtn = (ImageButton)findViewById(R.id.erase_btn);
         eraseBtn.setOnClickListener(this);
+
+        // Reference to new page button and sit this class as ClickListener
+        newBtn = (ImageButton)findViewById(R.id.new_btn);
+        newBtn.setOnClickListener(this);
+
+        // Reference to save button and sit this class as ClickListener
+        saveBtn = (ImageButton)findViewById(R.id.save_btn);
+        saveBtn.setOnClickListener(this);
 
     }
 
@@ -142,6 +151,63 @@ public class FreeDrawingActivity extends AppCompatActivity implements OnClickLis
             });
 
             brushDialog.show();
+        }
+
+        else if(view.getId()==R.id.new_btn){
+            // New page button clicked
+            AlertDialog.Builder newDialog = new AlertDialog.Builder(this);
+            newDialog.setTitle("New drawing");
+            newDialog.setMessage("Are you sure you want to start a new drawing ?");
+            newDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+                public void onClick(DialogInterface dialog, int which){
+                    drawView.startNew();
+                    dialog.dismiss();
+                }
+            });
+            newDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                public void onClick(DialogInterface dialog, int which){
+                    dialog.cancel();
+                }
+            });
+            newDialog.show();
+        }
+
+        else if(view.getId()==R.id.save_btn){
+            // Save drawing button clicked
+            AlertDialog.Builder saveDialog = new AlertDialog.Builder(this);
+            saveDialog.setTitle("Save drawing");
+            saveDialog.setMessage("Save drawing to device Gallery?");
+            saveDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+                public void onClick(DialogInterface dialog, int which){
+                    //save drawing
+                    drawView.setDrawingCacheEnabled(true);
+
+                    // try to save the drawing by insertImage
+                    String imgSaved = MediaStore.Images.Media.insertImage(
+                            getContentResolver(), drawView.getDrawingCache(),
+                            UUID.randomUUID().toString()+".png", "drawing");
+
+                    // The output of insertImage is either null in case of an error or a url in case of a success
+                    if(imgSaved!=null){
+                        Toast savedToast = Toast.makeText(getApplicationContext(),
+                                "Drawing saved !", Toast.LENGTH_SHORT);
+                        savedToast.show();
+                    }
+                    else{
+                        Toast unsavedToast = Toast.makeText(getApplicationContext(),
+                                "Sorry ! The drawing couldn't be saved.", Toast.LENGTH_SHORT);
+                        unsavedToast.show();
+                    }
+
+                    drawView.destroyDrawingCache();
+                }
+            });
+            saveDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                public void onClick(DialogInterface dialog, int which){
+                    dialog.cancel();
+                }
+            });
+            saveDialog.show();
         }
     }
 }
